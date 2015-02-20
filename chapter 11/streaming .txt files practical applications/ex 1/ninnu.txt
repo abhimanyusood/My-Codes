@@ -1,0 +1,8 @@
+    Click the Start Button and then click the "Programs" folder.
+    Next, click the "Accessories" and then the "System Information" or "System Tools" folder.
+    Open the "System Information" file.
+    Within the System Information window, click the + symbol next to Components.
+    Click the "+" next to "Storage" and click on "Drives", in the right side of the window you should be able to locate complete information about the hard drive including the size of the hard drive and the serial number. 
+
+
+249728

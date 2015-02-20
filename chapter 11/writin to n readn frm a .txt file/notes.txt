@@ -1,0 +1,2 @@
+note 
+here everything is same only diffrence is that we use clint.txt instead of clint.dat

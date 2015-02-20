@@ -1,0 +1,203 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+
+struct tree{
+       char data;
+       int freq;
+       struct tree *leftptr;
+       struct tree *rightptr;
+       struct tree *parentptr;
+       };
+       
+struct list{
+       struct tree *noddyptr;
+       struct list *nxtptr;
+       };
+       
+typedef struct tree Tree;
+typedef Tree *Treeptr;
+typedef struct list List;
+typedef struct list *Listptr;
+
+Listptr rptr=NULL,uninewptr=NULL;
+
+void initializelist(char ch,int f);
+void printlist();
+void insertlist();
+void dibasca(char chip,char bitarray[8]);
+
+int main()
+{
+
+int i;    
+FILE *vv;
+vv=fopen("huff.txt","r");
+int rb,count;
+fscanf(vv, "%d %d ",&rb,&count);
+printf("\n\nmoo %d %d moo\n",rb,count);
+char charray[count];
+int farray[count];
+
+for(i=0;i<count;i++)fscanf(vv,"%c",&charray[i]);
+for(i=0;i<count;i++)fscanf(vv," %d",&farray[i]);
+for(i=0;i<count;i++)printf("%c %d\n",charray[i],farray[i]);
+
+fclose(vv);
+
+           
+           for(i=0;i<count;i++)initializelist(charray[i],farray[i]);
+           printf("\n\n\n\n\n\n\n\nopp%d\n",rptr->nxtptr);printlist();
+           
+           while(rptr->nxtptr!=NULL){        
+                            Listptr l1=rptr;
+                            rptr=rptr->nxtptr;
+                            l1->nxtptr=NULL;//printf("\nninnu 1 %c\n",l1->noddyptr->data);printf("\nninnu 2 %d\n",l1->noddyptr->freq);
+                            Listptr l2=rptr;
+                            rptr=rptr->nxtptr;
+                            l2->nxtptr=NULL;//printf("\nninnu 3 %c\n",l2->noddyptr->data);printf("\nninnu 4 %d\n",l2->noddyptr->freq);    
+                            
+                            Treeptr newtreenodeptr=malloc(sizeof(Tree));
+                            newtreenodeptr->data='|';
+                            newtreenodeptr->freq=(l1->noddyptr->freq)+(l2->noddyptr->freq);//printf("\nninnu 5 %d\n",newtreenodeptr->freq);
+                            newtreenodeptr->leftptr=l1->noddyptr;
+                            l1->noddyptr->parentptr=newtreenodeptr;
+                            newtreenodeptr->rightptr=l2->noddyptr;
+                            l2->noddyptr->parentptr=newtreenodeptr;
+                            newtreenodeptr->parentptr=NULL;
+                            
+                            uninewptr= malloc(sizeof(List));
+                            uninewptr->noddyptr=newtreenodeptr;
+                            uninewptr->nxtptr=NULL;
+                            
+                            insertlist();//printlist();
+                       
+                            uninewptr=NULL;
+                                                    
+                            }
+ 
+           Treeptr startptr=rptr->noddyptr; 
+           
+           FILE *z;
+           z=fopen("chintu.txt","w");
+           FILE *g;
+           g = fopen ( "clint.txt", "r" ) ;
+           
+           
+           char bitarray[8],ch,ch1;
+           ch=fgetc(g);
+           while(1){
+                    ch1=fgetc(g);printf("ch %c\n",ch1);
+                    if(ch1!=EOF){
+                                  dibasca(ch,bitarray);
+                                  for(i=0;;){
+                                             if(bitarray[i]=='0'){
+                                                                  startptr=startptr->leftptr;
+                                                                  if(startptr->leftptr==NULL&&startptr->rightptr==NULL){
+                                                                                                                        fprintf(z,"%c",startptr->data);
+                                                                                                                        startptr=rptr->noddyptr;
+                                                                                                                        }
+                                                                  }
+                                          
+                                             if(bitarray[i]=='1'){
+                                                                  startptr=startptr->rightptr;
+                                                                  if(startptr->leftptr==NULL&&startptr->rightptr==NULL){
+                                                                                                                        fprintf(z,"%c",startptr->data);
+                                                                                                                        startptr=rptr->noddyptr;
+                                                                                                                        }
+                                                                  }
+                                             
+                                             i++;
+                                             if(i==8)break;
+                                             }
+                               
+                                  ch=ch1;
+                                  }
+                    else break;
+                    }
+                    
+fclose( g );
+fclose( z );           
+
+
+getch();
+}
+
+void initializelist(char ch,int f)
+{
+    Listptr newptr;
+    Listptr previousptr;    
+    Listptr currentptr;
+    
+    Treeptr newtreenodeptr=malloc(sizeof(Tree));
+    newtreenodeptr->data=ch;
+    newtreenodeptr->freq=f;
+    newtreenodeptr->leftptr=NULL;
+    newtreenodeptr->rightptr=NULL;
+    newtreenodeptr->parentptr=NULL;
+    
+    newptr= malloc(sizeof(List));
+    newptr->noddyptr=newtreenodeptr;
+    newptr->nxtptr=NULL;
+    
+    previousptr=NULL;
+    currentptr=rptr;
+    while(currentptr!=NULL&&currentptr->noddyptr->freq<f){
+                                                          previousptr=currentptr;
+                                                          currentptr=currentptr->nxtptr;
+                                                          }
+    if(previousptr==NULL){
+                          rptr=newptr;
+                          newptr->nxtptr=currentptr;
+                         }       
+    else{
+         previousptr->nxtptr=newptr;
+         newptr->nxtptr=currentptr;
+        }
+    
+}       
+ 
+ 
+ 
+void printlist()
+{
+    Listptr frootptr=rptr;
+    while(frootptr!=NULL){
+                          printf("%c  %d\n",frootptr->noddyptr->data,frootptr->noddyptr->freq);
+                          frootptr=frootptr->nxtptr;
+                         }
+}      
+
+
+void insertlist()
+{
+    Listptr newptr;
+    Listptr previousptr;    
+    Listptr currentptr;
+    
+    previousptr=NULL;
+    currentptr=rptr;
+    while(currentptr!=NULL&&currentptr->noddyptr->freq<uninewptr->noddyptr->freq){
+                                                          previousptr=currentptr;
+                                                          currentptr=currentptr->nxtptr;
+                                                         }
+    if(previousptr==NULL){
+                            rptr=uninewptr;
+                            uninewptr->nxtptr=currentptr;
+                        }       
+    else{
+            previousptr->nxtptr=uninewptr;
+            uninewptr->nxtptr=currentptr;
+        }     
+        
+}
+
+void dibasca(char chip,char bitarray[8])
+{
+     unsigned c,mask=1<<7;
+     for(c=1;c<=8;c++){
+                       bitarray[c-1]=(chip&mask?'1':'0');
+                       chip<<=1;
+                       }
+}
+     
